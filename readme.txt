@@ -4,7 +4,7 @@ Donate link: http://www.harishchouhan.com
 Tags: freshdesk, sso, remote, authentication, auth, support, customer support, help desk, helpdesk, IT, customer, admin, bug, ticket, widget, comments
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.0
+Stable tag: 1.0.1
 
 Allows you to setup single sign on capabilities between your site and Freshdesk. Create's user accounts on the fly, automatically logs in users.
 
@@ -14,9 +14,10 @@ If you've used Freshdesk before then you know how awesome it is as both a suppor
 
 You can configure your Wordpress based website and Freshdesk to work together in perfect harmony to give your users the gift of one less username/password combination to remember.
 
+
 == Installation ==
 
-the plugin is simple to install:
+The plugin is simple to install:
 
 1.  Download the latest version of <a href="http://wordpress.org/extend/plugins/freshdesk/" target="_blank">Freshdesk</a> from the Wordpress Plugin Directory.
 2.  Unzip
@@ -25,10 +26,10 @@ the plugin is simple to install:
 3.  You now have a link in your Wordpress admin menu under "Settings" named Freshdesk, go to that page and follow the instructions!
 
 
-
-
 == Changelog ==
+
+= 1.0.1 =
+* Icons & Banner Updated
 
 = 1.0 =
 * First version with support for single sign on with freshdesk
-

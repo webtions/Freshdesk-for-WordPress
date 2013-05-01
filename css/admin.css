@@ -1,0 +1,20 @@
+/*
+ * Freshdesk for WordPress
+ *
+ * @subpackage Admin Dashboard Stylesheets
+ * @author Harish Chouhan
+ * @version 1.0.1
+ *
+ * http://freshdesk.com
+ *
+ * The following stylesheet is present on each and every admin page
+ * in WordPress, thus the "freskdesk" prefix and postfix isolation. Mostly
+ * used for the dashboard widget (contact form and tickets widget) as
+ * well as some generic stuff.
+ *
+ */
+
+/* Settings pages */
+#icon-freshdesk-32 {
+	background: url(../images/icon-32.png) 0 0 no-repeat;
+}

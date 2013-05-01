@@ -3,7 +3,7 @@
  * Plugin Name: Freshdesk
  * Plugin URI: http://www.harishchouhan.com/wordpress-plugins/freshdesk/
  * Description: Allows you to setup single sign on capabilities between your site and Freshdesk. Create's user accounts on the fly, automatically logs in users.
- * Version: 1.0
+ * Version: 1.0.1
  * Author: Harish Chouhan
  * Author URI: http://www.harishchouhan.com/
  * Author Email: hello@dreamsmedia.in
@@ -50,6 +50,9 @@ if ( ! class_exists( 'DOT_Freshdesk' ) ) {
 			add_action( 'admin_menu', array( &$this, 'dot_freshdesk_menu' ) );
 			add_action( 'admin_init', array( &$this, '_admin_init' ) );
 
+			// Register admin styles and scripts
+			add_action( 'admin_print_styles', array( &$this, 'register_admin_styles' ) );
+
 			// Initialize
 			$this->setup();
 
@@ -78,6 +81,16 @@ if ( ! class_exists( 'DOT_Freshdesk' ) ) {
 			$this->freshdesk_url = 'https://' . $this->settings['account'] . '.freshdesk.com';
 		}
 
+		/**
+		 * Registers and enqueues admin-specific styles.
+		 */
+		public function register_admin_styles() {
+
+			// TODO change 'plugin-name' to the name of your plugin
+			wp_register_style( 'freshdesk-admin-styles', plugins_url( 'freshdesk/css/admin.css' ) );
+			wp_enqueue_style( 'freshdesk-admin-styles' );
+
+		} // end register_admin_styles
 
 		/*
 		 * Load Default Settings
@@ -185,8 +198,8 @@ if ( ! class_exists( 'DOT_Freshdesk' ) ) {
 		public function _admin_menu_contents() {
 		?>
 			<div class="wrap">
-				<!--<div id="icon-freshdesk-32" class="icon32"><br></div>-->
-				<div id="icon-options-general" class="icon32"><br></div>
+				<div id="icon-freshdesk-32" class="icon32"><br></div>
+				<!--<div id="icon-options-general" class="icon32"><br></div>-->
 				<?php //screen_icon(); ?>
 				<h2><?php _e('Freshdesk for WordPress Settings', 'freshdesk'); ?></h2>
 
