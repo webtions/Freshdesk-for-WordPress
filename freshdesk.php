@@ -3,7 +3,7 @@
  * Plugin Name: Freshdesk
  * Plugin URI: http://www.harishchouhan.com/wordpress-plugins/freshdesk/
  * Description: Allows you to setup single sign on capabilities between your site and Freshdesk. Create's user accounts on the fly, automatically logs in users.
- * Version: 1.0.1
+ * Version: 1.1
  * Author: Harish Chouhan
  * Author URI: http://www.harishchouhan.com/
  * Author Email: hello@dreamsmedia.in
@@ -477,5 +477,5 @@ if ( ! class_exists( 'DOT_Freshdesk' ) ) {
 	// Initiation call of plugin
 	//$dot_freshdesk = new DOT_Freshdesk(__FILE__);
 };
-// Register the Zendesk_Support class initialization during WordPress' init action. Globally available through $zendesk_support global.
+
 add_action( 'init', create_function( '', 'global $dot_freshdesk; $dot_freshdesk = new DOT_Freshdesk();' ) );
