@@ -4,7 +4,7 @@ Donate link: http://www.harishchouhan.com
 Tags: freshdesk, sso, remote, authentication, auth, support, customer support, help desk, helpdesk, IT, customer, admin, bug, ticket, widget, comments
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 
 Allows you to setup single sign on capabilities between your site and Freshdesk. Create's user accounts on the fly, automatically logs in users.
 
@@ -42,7 +42,7 @@ You can also visit the [support center](http://www.dreamsonline.net/wordpress-pl
 
 == Changelog ==
 
-= 1.1.1 =
+= 1.2.0 =
 * Support URL update
 
 = 1.1 =
