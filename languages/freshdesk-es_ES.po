@@ -1,0 +1,139 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Freshdesk\n"
+"POT-Creation-Date: 2013-04-29 16:59+0530\n"
+"PO-Revision-Date: 2013-10-23 12:26+0100\n"
+"Last-Translator: jelena kovacevic <jecajeca260@gmail.com>\n"
+"Language-Team:  <hello@dreamsmedia.in>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: D:\\Projects\\Plugin Development\\freshdesk\\trunk\n"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:145
+msgid "Freshdesk Settings"
+msgstr "Configuración de Freshdesk "
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:145
+msgid "Settings"
+msgstr "Configuración"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:160
+msgid "Freshdesk Account"
+msgstr "Cuenta Freshdesk "
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:161
+msgid "Subdomain"
+msgstr "Subdominio"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:167
+msgid "Freshdesk Configuration"
+msgstr "Configuración de Freshdesk "
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:168
+msgid "Remote Login URL"
+msgstr "URL de Acceso Remoto"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:169
+msgid "Remote Logout URL"
+msgstr "URL de Cierre de Sesión Remoto"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:172
+msgid "General Settings"
+msgstr "Configuración General"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:173
+msgid "Remote Auth Status"
+msgstr "Estado de Autenticación Remota"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:174
+msgid "Remote Auth Shared Token"
+msgstr "Token de Autenticación Remota Compartida"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:191
+msgid "Freshdesk for WordPress Settings"
+msgstr "Configuración de Freshdesk  para WorkPress"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:195
+msgid ""
+"Before you access other features, please enter your Freshdesk subdomain."
+msgstr ""
+"Antes de acceder a otras funciones, por favor introduzca su subdominio "
+"Freshdesk."
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:254
+msgid "Add your Freshdesk subdomain to proceed further."
+msgstr "Añada su subdominio Freshdesk para poder continuar."
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:278
+msgid "The general remote authentication settings"
+msgstr "Opciones Generales de Autenticación Remota."
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:295
+msgid "Remote authentication is enabled"
+msgstr "Autentificación Remota Habilitada"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:297
+msgid "Remote authentication is <strong>disabled</strong>"
+msgstr "Autentificación Remota <strong>Desabilitada</strong>"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:300
+msgid ""
+"To activate remote authentication, ensure a shared token <br /> is entered "
+"below and click &quot;Save Changes&quot;"
+msgstr ""
+"Para activar la autenticación remota, asegure que un símbolo compartido <br/"
+"> se entra a continuación y haga click en &quot, Guardar cambios &quot;"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:317
+#, php-format
+msgid ""
+"Your shared token could be obtained on the %s in the <br /> Single Sign-On "
+"section."
+msgstr ""
+"El token compartido podría obtenerse en el %s en la <br/> sección Inicio "
+"Simple."
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:317
+msgid "Account Security page"
+msgstr "Página de Cuentas de Seguridad"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:319
+#, php-format
+msgid ""
+"<strong>Remember</strong> that you can always go to: <br /> %s to use the "
+"regular login <br /> in case you get unlucky and somehow lock yourself out "
+"of Freshdesk."
+msgstr ""
+"<strong>Recordar</strong> que siempre puede ir a: <br/>%s para utilizar el "
+"inicio de sesión regular <br/> en caso de que por accidente cierre Freshdesk"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:329
+msgid "The settings that need to be configured in your Freshdesk account."
+msgstr "Los ajustes que deben ser configurados en su cuenta Freshdesk "
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:371
+#: Development\freshdesk\trunk/freshdesk.php:427
+msgid "Remote authentication is not configured yet."
+msgstr "La Autentificación Remota no está configurada aún"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:447
+msgid "Remote authentication failed: "
+msgstr "Autenticación remota fallida"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:449
+msgid "Try again"
+msgstr "Intente de Nuevo"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:450
+#, php-format
+msgid "Log out of %s"
+msgstr "Cierre de sesión %s"
+
+#: D:\Projects\Plugin Development\freshdesk\trunk/freshdesk.php:451
+#, php-format
+msgid "Return to %s dashboard"
+msgstr "Regresar a %s dashboard"

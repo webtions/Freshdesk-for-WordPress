@@ -3,8 +3,8 @@ Contributors: hchouhan, dreamsonline, dreamsmedia
 Donate link: http://www.harishchouhan.com
 Tags: freshdesk, sso, remote, authentication, auth, support, customer support, help desk, helpdesk, IT, customer, admin, bug, ticket, widget, comments
 Requires at least: 3.5
-Tested up to: 3.5.1
-Stable tag: 1.2.0
+Tested up to: 3.7.1
+Stable tag: 1.2.1
 
 Allows you to setup single sign on capabilities between your site and Freshdesk. Create's user accounts on the fly, automatically logs in users.
 
@@ -41,6 +41,12 @@ Take a look at the [official "Freshdesk for WordPress" FAQ](http://www.dreamsonl
 You can also visit the [support center](http://www.dreamsonline.net/wordpress-plugins/freshdesk-for-wordpress/) and start a discussion if needed.
 
 == Changelog ==
+
+= 1.2.1 =
+* Added spanish translation - Thanks to @MariaRamos of @WebHostingHub
+
+= 1.2.0 =
+* Added a filter 'freshdesk_installed' to if its activated.
 
 = 1.2.0 =
 * Support URL update
