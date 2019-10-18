@@ -2,252 +2,92 @@
 
 class Themeist_Freshdesk_Admin {
 
-	public $settings = array();
-
-	/*--------------------------------------------*
-	 * Constructor
-	 *--------------------------------------------*/
-
 	/**
-	 * Initializes the plugin by setting localization, filters, and administration functions.
+	 * @param string $plugin_file
 	 */
-	function __construct( ) {
-
-		// Load text domain
-		load_plugin_textdomain( 'freshdesk', false, basename( dirname( __FILE__ ) ) . '/languages' );
-
-		add_action( 'admin_menu', array( &$this, 'dot_freshdesk_menu' ) );
-		add_action( 'admin_init', array( &$this, '_admin_init' ) );
-
-		// Register admin styles and scripts
-		add_action( 'admin_print_styles', array( &$this, 'register_admin_styles' ) );
-
-		add_filter( 'freshdesk_installed', array( &$this, '__return_true' ) );
-
-		// Initialize
-		$this->setup();
-
-		// Let's see if we need to do a remote auth.
-		$this->_do_remote_auth();
-
-	} // end constructor
-
-
-
-	/*
-	 * Plugin Setup
-	 *
-	 * Load settings, set URLs, authenticate the current user.
-	 *
-	 */
-	public function setup() {
-
-		// Load up the settings, set the Freshdesk URL and initialize the API object.
-		$this->_load_settings();
-
-		// Load default settings if there are no settings
-		if ( false === $this->settings )
-			$this->_default_settings();
-
-		// $this->_delete_settings();
-
-		$this->freshdesk_url = 'https://' . $this->settings['account'] . '.freshdesk.com';
+	public function __construct( $plugin_file ) {
+		$this->plugin_file = $plugin_file;
 	}
 
-	/**
-	 * Registers and enqueues admin-specific styles.
-	 */
-	public function register_admin_styles() {
+	public function add_admin_hooks() {
+		global $pagenow;
 
-		// TODO change 'plugin-name' to the name of your plugin
-		wp_register_style( 'freshdesk-admin-styles', plugins_url( 'freshdesk/css/admin.css' ) );
-		wp_enqueue_style( 'freshdesk-admin-styles' );
+		add_filter( 'admin_footer_text', array( $this, 'footer_text' ) );
 
-	} // end register_admin_styles
+		// Hooks for Plugins overview page
+		if( $pagenow === 'plugins.php' ) {
+			add_filter( 'plugin_action_links', array( $this, 'add_plugin_settings_link' ), 10, 2 );
+			add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links'), 10, 2 );
+		}
 
-	/*
-	 * Load Default Settings
-	 *
-	 * Sets the defaults for the settings array and calls _update_settings()
-	 * to write changes to the database. Generally run during plugin
-	 * activation or first run.
-	 *
-	 */
-	private function _default_settings() {
-		$this->settings = $this->default_settings;
-
-		$this->_update_settings();
+		add_action('admin_menu', array($this, 'themeist_freshdesk_menu'));
+		add_action('admin_init', array($this, 'themeist_freshdesk_settings'));
 	}
 
-	/*
-	 * Load Settings
-	 *
-	 * Private function to load current settings from the database. Sets
-	 * settings to false if settings are not found (i.e. plugin is new).
-	 *
-	 */
-	private function _load_settings() {
-		$this->settings = get_option( 'dot_freshdesk_settings', false );
-
-		$this->default_settings = array(
-			'version' => 1,
-			'account' => '',
-			'enabled' => false,
-			'token' => ''
-		);
-
+	public function themeist_freshdesk_menu() {
+		$page_title = __('Freshdesk', 'freshdesk');
+		$menu_title = __('Freshdesk', 'freshdesk');
+		$capability = 'manage_options';
+		$menu_slug = 'themeist-freshdesk';
+		$function = array(&$this, 'themeist_freshdesk_settings_page');
+		add_options_page($page_title, $menu_title, $capability, $menu_slug, $function);
 	}
 
-	/*
-	 * Delete Settings
-	 *
-	 * Removes all Freshdesk settings from the database, as well as flushes
-	 * all the user's authentication settings. Use this during plugin
-	 * deactivation.
-	 *
-	 */
-	private function _delete_settings() {
-		delete_option( 'dot_freshdesk_settings' );
+	public function add_plugin_settings_link( $links, $file ) {
+		if ( $file == plugin_basename($this->plugin_file) ) {
+
+			$settings_link = '<a href="' . admin_url( 'options-general.php?page=themeist-freshdesk' ) . '">'. __( 'Settings', 'freshdesk' ) . '</a>';
+			array_unshift( $links, $settings_link );
+		}
+		return $links;
 	}
 
-	/*
-	 * Update Settings
-	 *
-	 * Use this private method after doing any changes to the settings
-	 * arrays. This method writes the changes to the database.
-	 *
-	 */
-	private function _update_settings() {
-		update_option( 'dot_freshdesk_settings', $this->settings );
+	public function add_plugin_meta_links( $links, $file ) {
+		if ( strpos( $file, 'freshdesk.php' ) !== false ) {
+			$new_links = array(
+					'donate' => '<a href="https://www.paypal.me/harishchouhan" target="_blank">Donate</a>',
+					'Documentation' => '<a href="https://themeist.com/docs/#utm_source=wp-plugin&utm_medium=freshdesk&utm_campaign=plugins-page" target="_blank">Documentation</a>'
+				);
+
+			$links = array_merge( $links, $new_links );
+		}
+		return $links;
 	}
 
-	/*--------------------------------------------*
-	 * Admin Menu
-	 *--------------------------------------------*/
+	public function footer_text( $text ) {
+		if(! empty( $_GET['page'] ) && strpos( $_GET['page'], 'themeist-freshdesk' ) === 0 ) {
+			$text = sprintf( 'If you enjoy using <strong>Freshdesk</strong> for WordPress Plugin, please <a href="%s" target="_blank">leave us a ★★★★★ rating</a>. A <strong style="text-decoration: underline;">huge</strong> thank you in advance!', 'https://wordpress.org/support/view/plugin-reviews/freshdesk?rate=5#postform' );
+		}
+		return $text;
+	}
 
-	function dot_freshdesk_menu() {
-
-		add_menu_page( 'Freshdesk', 'Freshdesk', 'manage_options', 'freshdesk', array( &$this, '_admin_menu_contents' ), plugins_url( '/images/icon-16.png', __FILE__ ) );
-		$settings_page = add_submenu_page( 'freshdesk', __( 'Freshdesk Settings', 'freshdesk' ), __( 'Settings', 'freshdesk' ), 'manage_options', 'freshdesk', array( &$this, '_admin_menu_contents' ) );
-
-	}	//dot_freshdesk_menu
-
-
-	/*--------------------------------------------*
-	 * Settings & Settings Page
-	 *--------------------------------------------*/
-
-	public function _admin_init() {
+	public function themeist_freshdesk_settings() {
 
 		// General Settings
 		register_setting( 'dot_freshdesk_settings', 'dot_freshdesk_settings', array(&$this, '_validate_settings') );
-
 		// Authentication Details
 		add_settings_section( 'authentication', __( 'Freshdesk Account', 'freshdesk' ), array( &$this, '_settings_section_authentication' ), 'dot_freshdesk_settings' );
 		add_settings_field( 'account', __( 'Subdomain', 'freshdesk' ), array( &$this, '_settings_field_account' ), 'dot_freshdesk_settings', 'authentication' );
 
-		// Display the rest of the settings only if a Freshdesk account has been specified.
-		if ( $this->settings['account'] ) {
 
-			// Remote Authentication Section Freshdesk
-			add_settings_section( 'freshdesk', __( 'Freshdesk Configuration', 'freshdesk' ), array( &$this, '_settings_remote_auth_section_freshdesk' ), 'dot_freshdesk_settings' );
-			add_settings_field( 'login_url', __( 'Remote Login URL', 'freshdesk' ), array( &$this, '_settings_field_remote_auth_login_url' ), 'dot_freshdesk_settings', 'freshdesk' );
-			add_settings_field( 'logout_url', __( 'Remote Logout URL', 'freshdesk' ), array( &$this, '_settings_field_remote_auth_logout_url' ), 'dot_freshdesk_settings', 'freshdesk' );
-
-			// Remote Authentication Section
-			add_settings_section( 'general', __( 'General Settings', 'freshdesk' ), array( &$this, '_settings_remote_auth_section_general' ), 'dot_freshdesk_settings' );
-			add_settings_field( 'enabled', __( 'Remote Auth Status', 'freshdesk' ), array( &$this, '_settings_field_remote_auth_enabled' ), 'dot_freshdesk_settings', 'general' );
-			add_settings_field( 'token', __( 'Remote Auth Shared Token', 'freshdesk' ), array( &$this, '_settings_field_remote_auth_token' ), 'dot_freshdesk_settings', 'general' );
-
-		}
-
-	}	//dot_freshdesk_settings
-
-	/*--------------------------------------------*
-	 * Settings & Settings Page
-	 * dot_freshdesk_admin_menu_contents
-	 *--------------------------------------------*/
-
-	public function _admin_menu_contents() {
-	?>
-		<div class="wrap">
-			<div id="icon-freshdesk-32" class="icon32"><br></div>
-			<!--<div id="icon-options-general" class="icon32"><br></div>-->
-			<?php //screen_icon(); ?>
-			<h2><?php _e('Freshdesk for WordPress Settings', 'freshdesk'); ?></h2>
-
-			<?php if ( ! $this->settings['account'] ): ?>
-				<div id="message" class="updated below-h2 freshdesk-info">
-					<p><?php _e( "Before you access other features, please enter your Freshdesk subdomain.", 'freshdesk' ); ?></p>
-				</div>
-			<?php endif; ?>
-
-			<form method="post" action="options.php">
-				<?php wp_nonce_field('update-options'); ?>
-				<?php settings_fields('dot_freshdesk_settings'); ?>
-				<?php do_settings_sections('dot_freshdesk_settings'); ?>
-				<p class="submit">
-					<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes', 'freshdesk'); ?>" />
-				</p>
-			</form>
-		</div>
-
-	<?php
-	}	//dot_freshdesk_admin_menu_contents
+		register_setting('themeist-freshdesk', 'themeist_freshdesk_settings', array(&$this, 'settings_validate'));
+		add_settings_section('themeist-freshdesk', '', array(&$this, '_settings_section_authentication'), 'themeist-freshdesk');
+		add_settings_field( 'account', __( 'Subdomain', 'freshdesk' ), array( &$this, '_settings_field_account' ), 'themeist-freshdesk', 'authentication' );
 
 
-	/*
-	 * Settings Validation
-	 *
-	 * Validates all the incoming settings, generally submitted from
-	 * the Freshdesk Settings admin page. Check, sanitize, strip and
-	 * return. The returning array is stored in the database and then
-	 * accessible through $this->settings.
-	 *
-	 */
-	public function _validate_settings( $settings ) {
+			// Authentication Details
+			//add_settings_section( 'authentication', __( 'Freshdesk Account', 'freshdesk' ), array( &$this, '_settings_section_authentication' ), 'themeist_freshdesk_settings' );
+			add_settings_field( 'account', __( 'Subdomain', 'freshdesk' ), array( &$this, '_settings_field_account' ), 'themeist_freshdesk_settings', 'authentication' );
 
-		$settings['version'] = $this->default_settings['version'];
-
-		// Validate the Freshdesk Account
-		if ( ! preg_match( '/^[a-zA-Z0-9]{0,}$/', $settings['account'] ) )
-			unset( $settings['account'] );
-
-
-		// Merge the submitted settings with the defaults. Second
-		// argument will overwrite the first.
-		if ( is_array( $this->settings ) )
-			$settings = array_merge( $this->settings, $settings );
-		else
-			$settings = array_merge( $this->default_settings, $settings );
-
-		$settings['enabled'] = empty( $settings['token'] ) ? false : true;
-
-		return $settings;
 	}
-
-
-	/*
-	 * Settings: Authentication Section
-	 *
-	 * Outputs the description for the authentication settings registered
-	 * during admin_init, displayed underneath the section title, which
-	 * is defined during section registration.
-	 *
-	 */
 
 	public function _settings_section_authentication() {
-		_e( "Add your Freshdesk subdomain to proceed further.", 'freshdesk' );
+		?>
+
+		<p><?php _e( "Add your Freshdesk subdomain to proceed further.", 'freshdesk' ); ?></p>
+		<?php
 	}
 
-	/*
-	 * Settings: Account Field
-	 *
-	 * Field for $this->settings['account'] -- simply the account name,
-	 * without any http or freshdesk.com prefixes and postfixes. Validated
-	 * together with all the other options.
-	 *
-	 */
 	public function _settings_field_account() {
 	?>
 
@@ -256,195 +96,29 @@ class Themeist_Freshdesk_Admin {
 	<?php
 	}
 
-	/*
-	 * Settings Section: Remote Auth General
-	 *
-	 */
-	public function _settings_remote_auth_section_general() {
-		_e( 'The general remote authentication settings', 'freshdesk' );
+	public function settings_validate($input) {
+
+		return $input;
 	}
 
-	/*
-	 * Settings Remote Auth: Enabled
-	 *
-	 * This simply says whether remote authentication is enabled or not,
-	 * used to be a checkbox, but that is now handled in the remote
-	 * auth validation section.
-	 *
-	 */
-	public function _settings_field_remote_auth_enabled() {
-
-		$remote_auth = (bool) $this->settings['enabled'];
-	?>
-			<span class="description">
-				<?php if ( $remote_auth ): ?>
-					<strong><?php _e( 'Remote authentication is enabled', 'freshdesk' ); ?></strong>
-				<?php else: ?>
-					<strong><?php _e( 'Remote authentication is <strong>disabled</strong>', 'freshdesk' ); ?></strong>
-			<?php endif; ?>
-
-			<br /><?php _e( 'To activate remote authentication, ensure a shared token <br /> is entered below and click &quot;Save Changes&quot;', 'freshdesk' ); ?>
-			</span>
-	<?php
+	public function themeist_freshdesk_settings_page() {
+		?>
+		<div id="irecommendthis-settings" class="wrap irecommendthis-settings">
+			<h1><?php _e('Freshdesk for WordPress Settings', 'freshdesk'); ?></h1>
+			<form action="options.php" method="post">
+				<?php settings_fields('themeist-freshdesk'); ?>
+				<?php do_settings_sections('themeist-freshdesk'); ?>
+				<p class="submit"><input type="submit" class="button-primary" value="<?php _e('Save Changes', 'freshdesk'); ?>"/></p>
+			</form>
+		</div>
+		<?php
 	}
 
-	/*
-	 * Settings Remote Auth: Shared Token
-	 *
-	 * Shared token is the shared secret located under the single sign-on
-	 * settings on the Freshdesk Account Security page. We ask for that
-	 * token right here.
-	 *
-	 */
-	public function _settings_field_remote_auth_token() {
-	?>
-		<input type="text" class="regular-text" name="dot_freshdesk_settings[token]" value="<?php echo $this->settings['token']; ?>" /><br />
-		<span class="description">
-			<?php printf( __( 'Your shared token could be obtained on the %s in the <br /> Single Sign-On section.', 'freshdesk' ), sprintf( '<a target="_blank" href="' . trailingslashit( $this->freshdesk_url ) . 'admin/security">%s</a>', __( 'Account Security page', 'freshdesk' ) ) ); ?>
-			<br /><br />
-			<?php printf( __( '<strong>Remember</strong> that you can always go to: <br /> %s to use the regular login <br /> in case you get unlucky and somehow lock yourself out of Freshdesk.', 'freshdesk' ), '<a target="_blank" href="' . trailingslashit( $this->freshdesk_url ) . 'login/normal' . '">' . trailingslashit( $this->freshdesk_url ) . 'access/normal' . '</a>' ); ?>
-		</span>
-	<?php
+	public function section_intro() {
+		?>
+
+		<p><?php _e('This plugin allows your visitors to simply recommend or like your posts instead of commment it.', 'i-recommend-this'); ?></p>
+		<?php
 	}
 
-	/*
-	 * Settings Section: Remote Auth for Freshdesk
-	 *
-	 */
-	public function _settings_remote_auth_section_freshdesk() {
-		_e( 'The settings that need to be configured in your Freshdesk account.', 'freshdesk' );
-	}
-
-	/*
-	 * Settings Field: Remote Auth Login URL
-	 *
-	 * Displays the login URL for the Freshdesk remote auth settings.
-	 *
-	 */
-	public function _settings_field_remote_auth_login_url() {
-		echo '<code>' . wp_login_url() . '?action=freshdesk-remote-login' . '</code>';
-	}
-
-	/*
-	 * Settings Field: Remote Auth Logout URL
-	 *
-	 * Same as above but displays the logout URL.
-	 *
-	 */
-	public function _settings_field_remote_auth_logout_url() {
-		echo '<code>' . wp_login_url() . '?action=freshdesk-remote-logout' . '</code>';
-	}
-
-
-	/*
-	 * Remote Authentication Process
-	 *
-	 * This is fired during plugin setup, i.e. during the init WordPress
-	 * action, thus we have control over any redirects before the request
-	 * is ever processed by the WordPress interpreter.
-	 *
-	 * Remote Auth is described here: http://www.freshdesk.com/api/remote-authentication
-	 *
-	 * This method does both login and logout requests.
-	 *
-	 */
-	public function _do_remote_auth() {
-		// This is a login request.
-		if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'freshdesk-remote-login' ) {
-
-			// Don't waste time if remote auth is turned off.
-			if ( ! isset( $this->settings['enabled'] ) || ! $this->settings['enabled'] ) {
-				_e( 'Remote authentication is not configured yet.', 'freshdesk' );
-				die();
-			}
-
-			// Filter freshdesk_return_to
-			$return_to = apply_filters( 'freshdesk_return_to', $_REQUEST['return_to'] ) ;
-
-			global $current_user;
-			wp_get_current_user();
-
-			// If the current user is logged in
-			if ( 0 != $current_user->ID ) {
-
-				// Pick the most appropriate name for the current user.
-				if ( $current_user->user_firstname != '' && $current_user->user_lastname != '' )
-					$name = $current_user->user_firstname . ' ' . $current_user->user_lastname;
-				else
-					$name = $current_user->display_name;
-
-				// Gather more info from the user, incl. external ID
-				$email = $current_user->user_email;
-
-				// The token is the remote "Shared Secret" under Admin - Security - Enable Single Sign On
-				$token = $this->settings['token'];
-
-				// Generate the hash as per http://www.freshdesk.com/api/remote-authentication
-				$hash = md5( $name . $email . $token );
-
-				// Create the SSO redirect URL and fire the redirect.
-				$sso_url = trailingslashit( $this->freshdesk_url ) . 'login/sso/?action=freshdesk-remote-login&return_to=' . urlencode( $return_to ) . '&name=' . urlencode( $name ) . '&email=' . urlencode( $email ) . '&hash=' . urlencode( $hash );
-
-				//Hook before redirecting logged in user.
-				do_action( 'freshdesk_logged_in_redirect_before' );
-
-				wp_redirect( $sso_url );
-
-				// No further output.
-				die();
-			} else {
-
-				//Hook before redirecting user to login form
-				do_action( 'freshdesk_logged_in_redirect_before' );
-
-				// If the current user is not logged in we ask him to visit the login form
-				// first, authenticate and specify the current URL again as the return
-				// to address. Hopefully WordPress will understand this.
-				wp_redirect( wp_login_url( wp_login_url() . '?action=freshdesk-remote-login&&return_to=' . urlencode( $return_to ) ) );
-				die();
-			}
-		}
-
-		// Is this a logout request? Errors from Freshdesk are handled here too.
-		if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] == 'freshdesk-remote-logout' ) {
-
-			// Don't waste time if remote auth is turned off.
-			if ( ! isset( $this->settings['enabled'] ) || ! $this->settings['enabled'] ) {
-				_e( 'Remote authentication is not configured yet.', 'freshdesk' );
-				die();
-			}
-
-
-			// Error processing and info messages are done here.
-			$kind = isset( $_REQUEST['kind'] ) ? $_REQUEST['kind'] : 'info';
-			$message = isset( $_REQUEST['message'] ) ? $_REQUEST['message'] : 'nothing';
-
-			// Depending on the message kind
-			if ( $kind == 'info' ) {
-
-				// When the kind is an info, it probably means that the logout
-				// was successful, thus, logout of WordPress too.
-				wp_redirect( htmlspecialchars_decode( wp_logout_url() ) );
-				die();
-
-			} elseif ( $kind == 'error' ) {
-				// If there was an error...
-			?>
-				<p><?php _e( 'Remote authentication failed: ', 'freshdesk' ); ?><?php echo $message; ?>.</p>
-				<ul>
-					<li><a href="<?php echo $this->freshdesk_url; ?>"><?php _e( 'Try again', 'freshdesk' ); ?></a></li>
-					<li><a href="<?php echo wp_logout_url(); ?>"><?php printf( __( 'Log out of %s', 'freshdesk' ), get_bloginfo( 'name' ) ); ?></a></li>
-					<li><a href="<?php echo admin_url(); ?>"><?php printf( __( 'Return to %s dashboard', 'freshdesk' ), get_bloginfo( 'name' ) ); ?></a></li>
-				</ul>
-			<?php
-			}
-
-			// No further output.
-			die();
-		}
-	}
-
-
-} // end class
-
-//add_action( 'init', create_function( '', 'global $dot_freshdesk; $dot_freshdesk = new Themeist_Freshdesk();' ) );
+}

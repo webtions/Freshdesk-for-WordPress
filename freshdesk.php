@@ -7,7 +7,7 @@
  * Author:            Harish Chouhan, Themeist
  * Author URI:        https://themeist.com/
  * Author Email:      support@themeist.com
- * Text Domain:       freshdesk
+ * Text Domain:       themeist_freshdesk
  * License:           GPL-3.0
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Domain Path:       /languages
@@ -27,9 +27,6 @@ define( 'THEMEIST_FRESHDESK_VERSION', '1.2.2' );
 // require includes
 require_once dirname( __FILE__ ) . '/includes/class-freshdesk.php';
 require_once dirname( __FILE__ ) . '/admin/class-freshdesk-admin.php';
-require_once dirname( __FILE__ ) . '/public/class-freshdesk-public.php';
-//require_once dirname( __FILE__ ) . '/public/class-widget-most-recommended-posts.php';
-//require_once dirname( __FILE__ ) . '/includes/functions.php';
 
 // create instance of plugin class
 global $themeist_freshdesk;
@@ -39,9 +36,4 @@ $themeist_freshdesk->add_hooks();
 // create instance of admin class
 global $themeist_freshdesk_admin;
 $themeist_freshdesk_admin = new Themeist_Freshdesk_Admin( __FILE__ );
-
-
-// create instance of plugin class
-global $themeist_freshdesk_public;
-$themeist_freshdesk_public = new Themeist_Freshdesk_Public( __FILE__ );
-//$themeist_freshdesk_public->add_public_hooks();
+$themeist_freshdesk_admin->add_admin_hooks();

@@ -24,15 +24,9 @@ class Themeist_Freshdesk {
 	public function add_hooks() {
 
 		add_action('init', array($this, 'load_localisation'), 0);
-		//add_action( 'plugins_loaded', 'i_recommend_this_load_plugin_textdomain' );
-		//add_action( 'plugins_loaded', array( $this, 'i_recommend_this_load_plugin_textdomain' ), 0 );
+		
 	}
 
-	/**
-	 * Load the plugin text domain for translation.
-	 *
-	 * @since    1.2.2
-	 */
 	public function load_localisation() {
 		load_plugin_textdomain('freshdesk', false, dirname(plugin_basename($this->plugin_file)) . '/languages/');
 	}
