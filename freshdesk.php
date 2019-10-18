@@ -448,7 +448,13 @@ if ( ! class_exists( 'DOT_Freshdesk' ) ) {
 
 				// Error processing and info messages are done here.
 				$kind = isset( $_REQUEST['kind'] ) ? $_REQUEST['kind'] : 'info';
-				$message = isset( $_REQUEST['message'] ) ? $_REQUEST['message'] : 'nothing';
+
+				if( isset( $_REQUEST['message'] ) ) {
+					$message = sanitize_text_field( $_REQUEST['message'] );
+				} else {
+					$message = 'nothing';
+				}
+				
 
 				// Depending on the message kind
 				if ( $kind == 'info' ) {
