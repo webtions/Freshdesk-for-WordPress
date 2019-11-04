@@ -1,10 +1,12 @@
 === Freshdesk for WordPress ===
-Contributors: hchouhan, dreamsonline, dreamsmedia
-Donate link: http://www.harishchouhan.com
+Contributors: themeist, hchouhan
+Donate link: https://themeist.com
 Tags: freshdesk, sso, remote, authentication, auth, support, customer support, help desk, helpdesk, IT, customer, admin, bug, ticket, widget, comments
-Requires at least: 3.5
-Tested up to: 3.7.1
+Requires at least: 4.0
+Tested up to: 4.9.8
 Stable tag: 1.2.2
+License: GPLv3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
 Allows you to setup single sign on capabilities between your site and Freshdesk. Create's user accounts on the fly, automatically logs in users.
 
