@@ -485,7 +485,7 @@ if ( ! class_exists( 'DOT_Freshdesk' ) ) {
 	} // end class
 
 	// Initiation call of plugin
-	//$dot_freshdesk = new DOT_Freshdesk(__FILE__);
+	$dot_freshdesk = new DOT_Freshdesk(__FILE__);
 };
 
-add_action( 'init', create_function( '', 'global $dot_freshdesk; $dot_freshdesk = new DOT_Freshdesk();' ) );
+//add_action( 'init', create_function( '', 'global $dot_freshdesk; $dot_freshdesk = new DOT_Freshdesk();' ) );
