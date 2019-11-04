@@ -467,7 +467,7 @@ if ( ! class_exists( 'DOT_Freshdesk' ) ) {
 				} elseif ( $kind == 'error' ) {
 					// If there was an error...
 				?>
-					<p><?php _e( 'Remote authentication failed: ', 'freshdesk' ); ?><?php echo $message; ?>.</p>
+					<p><?php _e( 'Remote authentication failed: ', 'freshdesk' ); ?><?php echo esc_html($message); ?>.</p>
 					<ul>
 						<li><a href="<?php echo $this->freshdesk_url; ?>"><?php _e( 'Try again', 'freshdesk' ); ?></a></li>
 						<li><a href="<?php echo wp_logout_url(); ?>"><?php printf( __( 'Log out of %s', 'freshdesk' ), get_bloginfo( 'name' ) ); ?></a></li>
