@@ -1,32 +1,17 @@
 <?php
 /*
- * Plugin Name: Freshdesk
- * Plugin URI: http://www.harishchouhan.com/wordpress-plugins/freshdesk/
- * Description: Allows you to setup single sign on capabilities between your site and Freshdesk. Create's user accounts on the fly, automatically logs in users.
- * Version: 1.2.2
- * Author: Harish Chouhan
- * Author URI: http://www.harishchouhan.com/
- * Author Email: hello@dreamsmedia.in
- * License: GPLv2
-
- * License:
-
-  Copyright 2013 "Freshdesk Plugin" (hellO@dreamsmedia.in)
-
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License, version 2, as
-  published by the Free Software Foundation.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-*/
+ * Plugin Name:       Freshdesk
+ * Plugin URI:        https://themeist.com/plugins/wordpress/freshdesk/#utm_source=wp-plugin&utm_medium=freshdesk&utm_campaign=plugins-page
+ * Description:       Allows you to setup single sign on capabilities between your site and Freshdesk. Create's user accounts on the fly, automatically logs in users.
+ * Version:           1.2.2
+ * Author:            Harish Chouhan, Themeist
+ * Author URI:        https://themeist.com/
+ * Author Email:      support@themeist.com
+ * Text Domain:       freshdesk
+ * License:           GPL-3.0
+ * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
+ * Domain Path:       /languages
+ */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 if ( ! class_exists( 'DOT_Freshdesk' ) ) {
