@@ -2,9 +2,9 @@
 Contributors: themeist, hchouhan
 Donate link: https://themeist.com
 Tags: freshdesk, sso, remote, authentication, auth, support, customer support, help desk, helpdesk, IT, customer, admin, bug, ticket, widget, comments
-Requires at least: 4.0
-Tested up to: 4.9.8
-Stable tag: 1.2.2
+Requires at least: 5.0
+Tested up to: 5.2.4
+Stable tag: 1.2.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -16,12 +16,7 @@ If you've used Freshdesk before then you know how awesome it is as both a suppor
 
 You can configure your Wordpress based website and Freshdesk to work together in perfect harmony to give your users the gift of one less username/password combination to remember.
 
-Please report any bugs you find via http://www.dreamsonline.net/wordpress-plugins/freshdesk-for-wordpress/
-
-= My Links =
-
-* Twitter @[dreams_media](https://twitter.com/dreams_media)
-* Google+ [Harish Chouhan](https://plus.google.com/u/0/103138475844539274387/)
+Please report any bugs you find via https://themeist.com/plugins/wordpress/freshdesk
 
 If you love the plugin, please consider rating it and clicking on "it works" button.
 
@@ -43,6 +38,12 @@ Take a look at the [official "Freshdesk for WordPress" FAQ](http://www.dreamsonl
 You can also visit the [support center](http://www.dreamsonline.net/wordpress-plugins/freshdesk-for-wordpress/) and start a discussion if needed.
 
 == Changelog ==
+
+= 1.2.3 =
+* Code cleanup
+
+= 1.2.2 =
+* Escaping data before outputting to the screen
 
 = 1.2.1 =
 * Added spanish translation - Thanks to @MariaRamos of @WebHostingHub

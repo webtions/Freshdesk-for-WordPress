@@ -3,7 +3,7 @@
  * Plugin Name:       Freshdesk
  * Plugin URI:        https://themeist.com/plugins/wordpress/freshdesk/#utm_source=wp-plugin&utm_medium=freshdesk&utm_campaign=plugins-page
  * Description:       Allows you to setup single sign on capabilities between your site and Freshdesk. Create's user accounts on the fly, automatically logs in users.
- * Version:           1.2.2
+ * Version:           1.2.3
  * Author:            Harish Chouhan, Themeist
  * Author URI:        https://themeist.com/
  * Author Email:      support@themeist.com
